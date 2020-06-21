@@ -19,5 +19,13 @@ public class helloControler {
 
 		return "hello";
 	}
+	
+	@RequestMapping("/register")
+	public String signin(Model model, String tt) {
+
+		return "registerPage";
+	}
+	
+	
 
 }

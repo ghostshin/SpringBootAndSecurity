@@ -6,6 +6,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +19,9 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
 	MyUserDetailsService myUserDetailsService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder; // security提供的加密接口，写在WebSecurityConfig里面
 
 	/**
 	 * 首先，在用户登录的时候，系统将用户输入的的用户名和密码封装成一个Authentication对象
@@ -32,13 +36,20 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 		String username = authentication.getName();
 		String password = authentication.getCredentials().toString();
 
+
 		MyUserDetails myUserDetails = (MyUserDetails) myUserDetailsService.loadUserByUsername(username);
 
 		if (myUserDetails == null) {
 			throw new BadCredentialsException("用户没有找到");
 		}
 
-		if (!password.equals(myUserDetails.getPassword())) {
+		
+		//使用自带的match判断明码和从数据库中取到的加密密码是否相同 参考123加密后$2a$10$RFDjJoJkX3SOMXWlNpWr0epyQYt0ANh18OTkLuI6JDl6idEsGlfe2 
+        boolean f = passwordEncoder.matches(password,myUserDetails.getPassword());
+
+		
+		
+		if (!f) {
 			throw new BadCredentialsException("密码错误");
 		}
 

@@ -12,4 +12,8 @@
 		SELECT su.id,su.name,su.password FROM s_user su WHERE su.name = #{name} 
 	</select>
 	
+	<insert id="setNewUser">
+		insert into s_user (name,password) values (#{name},#{password})
+	</insert>
+	
 </mapper>

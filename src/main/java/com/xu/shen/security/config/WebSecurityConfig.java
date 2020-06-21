@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Security 主配置文件
@@ -18,6 +20,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity // 开启Spring Security的功能
 @EnableGlobalMethodSecurity(prePostEnabled = true) // 开启注解控制权限
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	// 这里配置PasswordEncoder,BCryptPasswordEncoder是security提供的PasswordEncorder的一个实现类
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 	/**
 	 * 定义不需要过滤的静态资源（等价于HttpSecurity的permitAll）
 	 */
@@ -32,6 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests()
+		   		
+				.antMatchers("/register", "/doRegister").permitAll()
+
 				// 对于网站部分资源需要指定鉴权
 				// .antMatchers("/admin/**").hasRole("ADMIN")
 				// 除上面外的所有请求全部需要鉴权认证

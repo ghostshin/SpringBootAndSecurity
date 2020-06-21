@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.xu.shen.security.enity.Permission;
@@ -17,9 +18,16 @@ import com.xu.shen.security.service.SecurityDataServiceImpl;
 public class MyUserDetailsService implements UserDetailsService {
 	@Autowired
 	SecurityDataServiceImpl securityDataService;
+	
+	
+
+	
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		
+		
 		User sUser = securityDataService.findSUserByName(username);
 		// 加入异常判断，防止找不到用户名的时候出问题
 		if (sUser == null) {
