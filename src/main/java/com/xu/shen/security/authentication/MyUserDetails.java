@@ -21,7 +21,7 @@ public class MyUserDetails extends User implements UserDetails {
 	// 用户资源权限列表
 	private List<Permission> sPermissionList = null;
 
-	public MyUserDetails(User user, List<Role> sRoleList2, List<Permission> sPermissionList2) {
+	public MyUserDetails(User user, List<Role> sRoleList, List<Permission> sPermissionList) {
 		 	super(user);  
 	        this.sRoleList = sRoleList;  
 	        this.sPermissionList = sPermissionList;  
