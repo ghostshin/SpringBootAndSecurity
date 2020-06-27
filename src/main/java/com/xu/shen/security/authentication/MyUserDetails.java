@@ -101,4 +101,22 @@ public class MyUserDetails extends User implements UserDetails {
 		// TODO Auto-generated method stub
 		 return true;  
 	}
+
+	@Override
+	public int hashCode() {
+		return this.getUsername().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.toString().equals(obj.toString());
+	}
+
+	@Override
+	public String toString() {
+		return this.getUsername();
+	}
+	
+	
+	
 }
